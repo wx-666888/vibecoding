@@ -28,6 +28,7 @@ services:
     build:
       context: .
       target: client
+    restart: "no"
     depends_on:
       server:
         condition: service_healthy
@@ -36,6 +37,7 @@ services:
     environment:
       - INPUT_FILE=/data/input.json
       - SERVER_URL=http://server:8080
+      - KEEP_ALIVE=true
     read_only: true
     tmpfs:
       - /tmp

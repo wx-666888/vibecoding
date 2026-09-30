@@ -41,12 +41,12 @@ docker compose up --build
 ```
 
 **运行效果**：
-Client 容器将自动读取 `./examples/input.json`，完成批量识别并在控制台以格式化 JSON 输出 20 条自测数据的识别结果，退出码为 0。
-
-若要在 Client 运行完毕后自动退出整个 Compose，可使用：
-```bash
-docker compose up --build --exit-code-from client
-```
+Client 容器将自动等待 Server 健康检查通过，随后读取 `./examples/input.json`，完成批量识别并在控制台以美观的格式化 JSON 输出 20 条自测数据的识别深度结果。
+* 默认情况下，Client 已启用 `KEEP_ALIVE=true`，输出识别结果后保持容器持续运行（Up 状态），便于随时通过 `docker compose ps` 查看状态或 `docker compose logs client` 复查结果；按 `Ctrl+C` 或执行 `docker compose down` 即可优雅关闭。
+* 若在自动化 CI/批处理流水线中希望 Client 识别后自动退出，只需设置 `KEEP_ALIVE=false`：
+  ```bash
+  KEEP_ALIVE=false docker compose up --build --exit-code-from client
+  ```
 
 ### 2.2 替换测试数据运行
 

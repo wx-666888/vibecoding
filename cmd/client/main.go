@@ -8,7 +8,9 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"os/signal"
 	"strings"
+	"syscall"
 	"time"
 )
 
@@ -23,8 +25,14 @@ func main() {
 		defaultServer = "http://localhost:8080"
 	}
 
+	defaultKeepAlive := false
+	if v := os.Getenv("KEEP_ALIVE"); v == "true" || v == "1" {
+		defaultKeepAlive = true
+	}
+
 	inputPath := flag.String("input", defaultInput, "Path to input JSON file")
 	serverURL := flag.String("server", defaultServer, "Server base URL (e.g. http://localhost:8080)")
+	keepAlive := flag.Bool("keep-alive", defaultKeepAlive, "Keep client alive after outputting results")
 	flag.Parse()
 
 	// Read input file
@@ -67,5 +75,14 @@ func main() {
 		fmt.Println(string(respBody))
 	} else {
 		fmt.Println(prettyJSON.String())
+	}
+
+	// If keepAlive is requested, hang until SIGINT/SIGTERM
+	if *keepAlive {
+		fmt.Fprintln(os.Stderr, "\n[Client] Recognition completed successfully. Container is keeping alive...")
+		sigChan := make(chan os.Signal, 1)
+		signal.Notify(sigChan, os.Interrupt, syscall.SIGTERM)
+		<-sigChan
+		fmt.Fprintln(os.Stderr, "[Client] Received termination signal. Exiting.")
 	}
 }
