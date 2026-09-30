@@ -1,0 +1,168 @@
+{
+  "rules": [
+    {
+      "id": "ssh-openssh",
+      "priority": 100,
+      "pattern": "(?i)^SSH-(?:1\\.99|2\\.0)-OpenSSH[_-]([0-9][a-zA-Z0-9._-]*)",
+      "protocol": "SSH",
+      "product": "OpenSSH",
+      "version_group": 1,
+      "confidence": 0.95
+    },
+    {
+      "id": "ssh-generic",
+      "priority": 90,
+      "pattern": "(?i)^SSH-(?:1\\.99|2\\.0)-([a-zA-Z0-9._-]+)",
+      "protocol": "SSH",
+      "product": "",
+      "version_group": 1,
+      "confidence": 0.85
+    },
+    {
+      "id": "http-nginx",
+      "priority": 95,
+      "pattern": "(?im)^Server:[ \\t]*nginx/([0-9][^\\s;()]*)",
+      "protocol": "HTTP",
+      "product": "nginx",
+      "version_group": 1,
+      "confidence": 0.90
+    },
+    {
+      "id": "http-apache",
+      "priority": 95,
+      "pattern": "(?im)^Server:[ \\t]*Apache(?:/([0-9][^\\s;()]*))?",
+      "protocol": "HTTP",
+      "product": "Apache",
+      "version_group": 1,
+      "confidence": 0.90
+    },
+    {
+      "id": "http-jetty",
+      "priority": 95,
+      "pattern": "(?im)^Server:[ \\t]*Jetty(?:/([0-9][^\\s;()]*))?",
+      "protocol": "HTTP",
+      "product": "Jetty",
+      "version_group": 1,
+      "confidence": 0.85
+    },
+    {
+      "id": "http-iis",
+      "priority": 95,
+      "pattern": "(?im)^Server:[ \\t]*Microsoft-IIS(?:/([0-9][^\\s;()]*))?",
+      "protocol": "HTTP",
+      "product": "Microsoft-IIS",
+      "version_group": 1,
+      "confidence": 0.90
+    },
+    {
+      "id": "http-server-generic",
+      "priority": 70,
+      "pattern": "(?im)^Server:[ \\t]*([a-zA-Z0-9_-]+)(?:/([0-9][^\\s;()]*))?",
+      "protocol": "HTTP",
+      "product": "",
+      "version_group": 2,
+      "confidence": 0.80
+    },
+    {
+      "id": "http-generic-status",
+      "priority": 60,
+      "pattern": "(?i)^HTTP/(?:1\\.[01]|2(?:\\.0)?)[ \\t]+[0-9]{3}",
+      "protocol": "HTTP",
+      "product": "",
+      "version_group": 0,
+      "confidence": 0.70
+    },
+    {
+      "id": "redis-err",
+      "priority": 85,
+      "pattern": "^-ERR\\s+",
+      "protocol": "Redis",
+      "product": "Redis",
+      "version_group": 0,
+      "confidence": 0.70
+    },
+    {
+      "id": "redis-noauth",
+      "priority": 85,
+      "pattern": "^-(?:NOAUTH|WRONGPASS)\\s+",
+      "protocol": "Redis",
+      "product": "Redis",
+      "version_group": 0,
+      "confidence": 0.70
+    },
+    {
+      "id": "redis-pong",
+      "priority": 80,
+      "pattern": "^\\+PONG",
+      "protocol": "Redis",
+      "product": "Redis",
+      "version_group": 0,
+      "confidence": 0.70
+    },
+    {
+      "id": "ftp-proftpd",
+      "priority": 95,
+      "pattern": "(?i)^220.*ProFTPD\\s+([0-9][^\\s()]*)",
+      "protocol": "FTP",
+      "product": "ProFTPD",
+      "version_group": 1,
+      "confidence": 0.90
+    },
+    {
+      "id": "ftp-vsftpd",
+      "priority": 95,
+      "pattern": "(?i)^220.*\\(vsFTPd\\s+([0-9][^\\s()]*)\\)",
+      "protocol": "FTP",
+      "product": "vsFTPd",
+      "version_group": 1,
+      "confidence": 0.90
+    },
+    {
+      "id": "ftp-pureftpd",
+      "priority": 95,
+      "pattern": "(?i)^220.*Pure-FTPd",
+      "protocol": "FTP",
+      "product": "Pure-FTPd",
+      "version_group": 0,
+      "confidence": 0.90
+    },
+    {
+      "id": "ftp-generic-banner",
+      "priority": 65,
+      "pattern": "(?i)^220[- ].*(?:FTP|FileZilla)",
+      "protocol": "FTP",
+      "product": "",
+      "version_group": 0,
+      "confidence": 0.80
+    },
+    {
+      "id": "ftp-generic-port21",
+      "priority": 50,
+      "pattern": "^220[ \\t\\r\\n]",
+      "protocol": "FTP",
+      "product": "",
+      "version_group": 0,
+      "confidence": 0.70,
+      "ports": [21]
+    },
+    {
+      "id": "tls-handshake",
+      "priority": 90,
+      "pattern": "^\u0016\u0003[\u0000-\u0004]",
+      "protocol": "TLS",
+      "product": "",
+      "version_group": 0,
+      "confidence": 0.90
+    }
+  ],
+  "os_hints": [
+    {"pattern": "(?i)\\bUbuntu(?:-[0-9a-zA-Z._-]+)?\\b", "name": "Ubuntu"},
+    {"pattern": "(?i)\\bDebian(?:-[0-9a-zA-Z._-]+)?\\b", "name": "Debian"},
+    {"pattern": "(?i)\\bCentOS\\b", "name": "CentOS"},
+    {"pattern": "(?i)\\b(?:Red[ -]?Hat|RHEL)\\b", "name": "Red Hat"},
+    {"pattern": "(?i)\\bAlpine\\b", "name": "Alpine"},
+    {"pattern": "(?i)\\bFedora\\b", "name": "Fedora"},
+    {"pattern": "(?i)\\bFreeBSD\\b", "name": "FreeBSD"},
+    {"pattern": "(?i)\\bWindows\\b", "name": "Windows"}
+  ]
+}
